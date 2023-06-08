@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla JS 2023</title>
+</head>
+
+<body>
+  
+    <h1>{JSON} Placeholder</h1>
+    <h2>url posts con XMLHttpRequest.</h2> 
+    <hr>
+    <div id="dinamic"></div>
+  
+    <!--seccion de scripts-->
+    <script>
+        // ajax con XMLHttpRequest.
+        //primero declaramos la url y object. 
+        const url = 'https://jsonplaceholder.typicode.com/posts';
+        const ajax = new XMLHttpRequest();
+
+        //añadiendo evento al object y los metodos open y send para que se ejecute.
+        ajax.addEventListener('load', ejecutoAjax);
+        ajax.open('GET', url);
+        ajax.send();
+
+        //obteniendo id del div para poner codigo dinamico.
+        const htmlRespT = document.getElementById("dinamic");
+        htmlRespT.innerHTML = ' <h2>Posts</h2>';
+
+        function ejecutoAjax() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                const data = JSON.parse(ajax.responseText);
+                htmlRespT.innerHTML += '<table><thead><tr><td>userId</td><td>id</td><td>Title</td><td>Body</td></tr></thead><tbody id="tb"></tbody></table>';
+                const htmlRespTbody = document.getElementById("tb");
+
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    htmlRespTbody.innerHTML += '<tr><td>' + element.userId + '</td><td>' + element.id + '</td><td>' + element.title + '</td><td>' + element.body + '</td></tr>';
+                }
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
